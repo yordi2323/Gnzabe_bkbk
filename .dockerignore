@@ -1,0 +1,27 @@
+# Ignore all environment files
+*.env
+config.env
+
+# Node modules
+node_modules
+
+# Logs
+npm-debug.log
+yarn-error.log
+logs
+*.log
+
+# Git
+.git
+.gitignore
+
+# Docker files
+Dockerfile
+docker-compose.yml
+
+# OS / IDE files
+.DS_Store
+*.swp
+*.swo
+.vscode
+.idea
