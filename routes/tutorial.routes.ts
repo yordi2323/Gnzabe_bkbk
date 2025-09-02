@@ -5,6 +5,7 @@ import {
   deleteTutorial,
   getAllTutorials,
   getTutorial,
+  sortTutorials,
   updateTutorial,
 } from '../controllers/tutorial.controller';
 import {
@@ -31,15 +32,18 @@ router.route('/').get(protectUserCompanyOwner, getAllTutorials).post(
   createTutorial,
 );
 
+router.route('/sort').get(sortTutorials)
+
 router.route('/:id').get(protectUserOwner, getTutorial).patch(
   protectOwner,
   uploadTutorialAssets,
   resizeThumbnail,
   handleVideoUpload,
   parseSlidesTags,
-
   updateTutorial,
 );
+
+
 // .delete(deleteTutorial);
 
 export default router;
