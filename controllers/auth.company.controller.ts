@@ -8,6 +8,8 @@ import { queueInivationEmail } from '../services/email.service';
 import { AppError } from '../utilities/appError';
 import { extractEmails } from '../utilities/helper';
 
+import { isCompanyEmail } from '../utilities/validateCompanyEmail';
+
 export const signupCompany = authFactory.createSignupController<ICompany>(
   Company,
   {
@@ -22,6 +24,21 @@ export const signupCompany = authFactory.createSignupController<ICompany>(
 
     emailField: 'primaryEmail',
     nameField: 'name',
+
+    beforeCreate: (body: any) => {
+      console.log("Request body:", body);
+      const { primaryEmail, secondaryEmail } = body;
+
+      console.log(`Validating email: ${primaryEmail}, Is company email: ${isCompanyEmail(primaryEmail)}`);
+      console.log(`Validating email: ${secondaryEmail}, Is company email: ${isCompanyEmail(secondaryEmail)}`);
+
+      if (!isCompanyEmail(primaryEmail)) {
+        throw new AppError('Primary email must be a company email', 400);
+      }
+      if (secondaryEmail && !isCompanyEmail(secondaryEmail)) {
+        throw new AppError('Secondary email must be a company email', 400);
+      }
+    },
   },
 );
 

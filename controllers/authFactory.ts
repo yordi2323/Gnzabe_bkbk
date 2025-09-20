@@ -21,6 +21,7 @@ interface SignupControllerOptions {
   allowedFields?: string[];
   emailField: string;
   nameField?: string;
+  beforeCreate?: (body: any) => void | Promise<void>;
 }
 
 const createSignupController = <T extends IAuthDocument>(
@@ -45,6 +46,11 @@ const createSignupController = <T extends IAuthDocument>(
       if (!department) {
         return next(new AppError('Invalid department ID', 400));
       }
+    }
+
+
+    if (options.beforeCreate) {
+      await options.beforeCreate(filteredBody);
     }
 
     const document = await Model.create(filteredBody);
